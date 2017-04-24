@@ -153,7 +153,7 @@ public class ContactsProvider {
                 contact.displayName = name;
             }
 
-            if(TextUtils.isEmpty(contact.photoUri)) {
+            if (TextUtils.isEmpty(contact.photoUri)) {
                 String rawPhotoURI = cursor.getString(cursor.getColumnIndex(Contactables.PHOTO_URI));
                 if (!TextUtils.isEmpty(rawPhotoURI)) {
                     contact.photoUri = rawPhotoURI;
@@ -260,8 +260,8 @@ public class ContactsProvider {
         private String prefix = "";
         private String suffix = "";
         private String company = "";
-        private String jobTitle ="";
-        private String department ="";
+        private String jobTitle = "";
+        private String department = "";
         private boolean hasPhoto = false;
         private String photoUri;
         private List<Item> emails = new ArrayList<>();
@@ -275,7 +275,8 @@ public class ContactsProvider {
         public WritableMap toMap() {
             WritableMap contact = Arguments.createMap();
             contact.putString("recordID", contactId);
-            contact.putString("givenName", TextUtils.isEmpty(givenName) ? displayName : givenName);
+            contact.putString("displayName", displayName);
+            contact.putString("givenName", givenName);
             contact.putString("middleName", middleName);
             contact.putString("familyName", familyName);
             contact.putString("prefix", prefix);
@@ -306,7 +307,7 @@ public class ContactsProvider {
 
             WritableArray postalAddresses = Arguments.createArray();
             for (PostalAddressItem item : this.postalAddresses) {
-              postalAddresses.pushMap(item.map);
+                postalAddresses.pushMap(item.map);
             }
             contact.putArray("postalAddresses", postalAddresses);
 
@@ -343,7 +344,7 @@ public class ContactsProvider {
             private void putString(Cursor cursor, String key, String androidKey) {
                 final String value = cursor.getString(cursor.getColumnIndex(androidKey));
                 if (!TextUtils.isEmpty(value))
-                  map.putString(key, value);
+                    map.putString(key, value);
             }
 
             static String getLabel(Cursor cursor) {
